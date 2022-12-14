@@ -24,10 +24,71 @@ def  add(params):
 
 
 def  remove(params):
-    print('handling remove')
+    room_name = params.split('=')[1]
+    print(room_name)
+    print('start remove room')
+    room_query = Query()
+    if  ROOM_DB.search(room_query.name == room_name):
+        ROOM_DB.remove(room_query.name == room_name)
+        str = '<HTML> <HEAD> <TITLE>' + 'Room Deleted' + '</TITLE> </HEAD> <BODY>' + 'Room with name ' + room_name \
+              + ' is successfully deleted.' + '</BODY> </HTML>'
+        response = 'HTTP/1.0 200 OK\n\n' + str
+    else:
+        str = str = '<HTML> <HEAD> <TITLE>' + 'Error' + '</TITLE> </HEAD> <BODY>' + 'Room with name ' + room_name \
+                    + ' does not exists in database.' + '</BODY> </HTML>'
+        response = 'HTTP/1.0 403 Forbidden\n\n' + str
+
+    return response
 
 def  reserve(params):
-    print('handling reserve')
+    req_params = params.split('&')
+    array = []
+    for par in req_params:
+        x = par.split('=')[0]
+        y = par.split('=')[1]
+        array.append(x)
+        array.append(y)
+
+
+    room_name = array[1]
+    day = int(array[3])
+    hour = int(array[5])
+    duration = int(array[7])
+
+
+    print('start remove room')
+    query = Query()
+    if not ROOM_DB.search(query.name == room_name):
+        str = '<HTML> <HEAD> <TITLE>' + 'Error' + '</TITLE> </HEAD> <BODY>' + 'Room with name ' + room_name \
+              + ' does not exists in database.' + '</BODY> </HTML>'
+        response = 'HTTP/1.0 403 Forbidden\n\n' + str
+    elif day<1 or day >7:
+        str = '<HTML> <HEAD> <TITLE>' + 'Error' + '</TITLE> </HEAD> <BODY>' + 'Enter day value between 1 and 7'\
+              + '</BODY> </HTML>'
+        response = 'HTTP/1.0 403 Forbidden\n\n' + str
+
+    elif hour<9 or hour>17:
+        str = '<HTML> <HEAD> <TITLE>' + 'Error' + '</TITLE> </HEAD> <BODY>' + 'Enter hour value between 9 and 17' \
+              + '</BODY> </HTML>'
+        response = 'HTTP/1.0 403 Forbidden\n\n' + str
+    elif not isinstance(duration,int):
+        str = '<HTML> <HEAD> <TITLE>' + 'Error' + '</TITLE> </HEAD> <BODY>' + 'Enter duration value as an integer' \
+              + '</BODY> </HTML>'
+        response = 'HTTP/1.0 403 Forbidden\n\n' + str
+    else:
+        x = ROOM_DB.search(query.name == room_name)
+        print(x)
+        rn = x[0].get("name")
+        print(rn)
+        ROOM_DB.update({'day': day,'hour':hour},query.name == room_name)
+        x = ROOM_DB.search(query.name == room_name)
+        print(x)
+
+        str = str = '<HTML> <HEAD> <TITLE>' + 'Error' + '</TITLE> </HEAD> <BODY>' + 'Room with name ' + room_name \
+                    + ' does not exists in database.' + '</BODY> </HTML>'
+        response = 'HTTP/1.0 403 Forbidden\n\n' + str
+
+    return response
 
 def  chechk_availability(params):
     print('handling checking availability')
@@ -43,9 +104,9 @@ def handle_request(request):
     if endpoint[0] == '/add':
         response = add(endpoint[1])
     elif endpoint[0] == '/remove':
-        remove(endpoint[1])
+        response = remove(endpoint[1])
     elif endpoint[0] == '/reserve':
-        reserve(endpoint[1])
+        response = reserve(endpoint[1])
     elif endpoint[0] == '/checkavailability':
         chechk_availability(endpoint[1])
     else:
