@@ -119,10 +119,10 @@ def check_availability(params):
         x = ROOM_DB.search(room_query.name == room_name)
         day = day - 1
         available_hours = x[0].get('available_hours')[day]
-        av_hour =""
+        av_hour = ""
         for i in available_hours:
-            av_hour+= str(i)+" "
-        return room_http_messages.check_available_hours_for_day(room_name, str(day+1), av_hour)
+            av_hour += str(i) + " "
+        return room_http_messages.check_available_hours_for_day(room_name, str(day + 1), av_hour)
 
 
 def is_sub_array(a, b, n, m):
