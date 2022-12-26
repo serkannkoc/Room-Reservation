@@ -29,7 +29,7 @@ def handle_request(request):
 
 # Define socket host and port
 SERVER_HOST = '0.0.0.0'
-SERVER_PORT = 7000
+SERVER_PORT = 7005
 
 # Create socket
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

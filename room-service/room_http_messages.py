@@ -46,20 +46,36 @@ def duration_message():
 def reserve_message(status_code, room_name):
     if status_code == 200:
         str = '<HTML> <HEAD> <TITLE>' + 'Reservation Successful' + '</TITLE> </HEAD> <BODY>' + \
-              'Room with name' + room_name + "is reserved for you." + '</BODY> </HTML>'
+              'Room with name ' + room_name + " is reserved for you." + '</BODY> </HTML>'
         response = 'HTTP/1.0 200 OK\n\n' + str
     elif status_code == 403:
         str = '<HTML> <HEAD> <TITLE>' + 'Error' + '</TITLE> </HEAD> <BODY>' + 'Room with name ' + room_name \
               + ' is already reserved!' + '</BODY> </HTML>'
         response = 'HTTP/1.0 403 Forbidden\n\n' + str
+    print(response)
     return response
 
 
 def check_available_hours_for_day(room_name, day, available_hours):
-    str = '<HTML> <HEAD> <TITLE> Available Hours </TITLE> </HEAD> <BODY>' + \
-          'On day ' + day + " room with name " + room_name + ' is available for the following hours: ' + \
-          available_hours \
-          + '</BODY> </HTML>'
+    dayInString = "string"
+
+    if day == "1":
+        dayInString = "Monday"
+    elif day == "2":
+        dayInString = "Tuesday"
+    elif day == "3":
+        dayInString = "Wednesday"
+    elif day == "4":
+        dayInString = "Thursday"
+    elif day == "5":
+        dayInString = "Friday"
+    elif day == "6":
+        dayInString = "Saturday"
+    elif day == "7":
+        dayInString = "Sunday"
+    str = f'<HTML> <HEAD> <TITLE> Available Hours </TITLE> </HEAD> <BODY> On day {dayInString} room with name {room_name} is available for the following hours: ' \
+          f'{available_hours} </BODY> </HTML>'
     print(str)
     response = 'HTTP/1.0 200 OK\n\n' + str
     return response
+

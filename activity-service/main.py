@@ -18,7 +18,7 @@ def handle_request(request):
     elif endpoint[0] == '/check':
         response = activity_controller.check(endpoint[1])
     else:
-        response = 'HTTP/1.0 400 Bad Request\n\n Wrong endpoint!!'
+        response = 'HTTP/1.0 400 Bad Request\n\n Wrong endpointhjfhjgfjfghjfghjfghj!!'
 
 
     return response
@@ -27,13 +27,14 @@ def handle_request(request):
 
 # Define socket host and port
 SERVER_HOST = '0.0.0.0'
-SERVER_PORT = 7001
+SERVER_PORT = 7003
 
 # Create socket
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 server_socket.bind((SERVER_HOST, SERVER_PORT))
 server_socket.listen(1)
+
 print('Listening on port %s ...' % SERVER_PORT)
 
 while True:
@@ -46,6 +47,7 @@ while True:
 
     # Return an HTTP response
     response = handle_request(request)
+
     client_connection.sendall(response.encode())
 
     # Close connection

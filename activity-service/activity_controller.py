@@ -9,6 +9,7 @@ activity_query = Query()
 def add(params):
     activity_name = params.split('=')[1]
     print('start controller add activity')
+
     if not ACTIVITY_DB.search(activity_query.name == activity_name):
         activity = Activity(activity_name).__dict__
         ACTIVITY_DB.insert(activity)

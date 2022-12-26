@@ -12,6 +12,7 @@ def add(params):
     if not ROOM_DB.search(room_query.name == room_name):
         room = Room(room_name).__dict__
         ROOM_DB.insert(room)
+
         response = room_http_messages.add_room_message(200, room_name)
     else:
         response = room_http_messages.add_room_message(403, room_name)
@@ -41,6 +42,7 @@ def reserve(params):
         array.append(x)
         array.append(y)
 
+
     room_name = array[1]
 
     try:
@@ -63,6 +65,7 @@ def reserve(params):
     if not ROOM_DB.search(room_query.name == room_name):
         return room_http_messages.remove_message(403, room_name)
     elif day < 1 or day > 7:
+        print(day)
         return room_http_messages.day_message()
     elif hour < 9 or hour > 17:
         return room_http_messages.hour_message()
@@ -117,6 +120,7 @@ def check_availability(params):
         return room_http_messages.day_message()
     else:
         x = ROOM_DB.search(room_query.name == room_name)
+        print(x)
         day = day - 1
         available_hours = x[0].get('available_hours')[day]
         av_hour = ""
