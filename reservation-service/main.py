@@ -3,16 +3,19 @@ import reservation_controller
 
 def handle_request(request,addr,conn):
     """Handles the HTTP request."""
-
+    # Split the request into separate lines and extract the endpoint
     headers = request.split('\n')
     endpoint = headers[0].split()[1].split('?')
+
+    # Print the endpoint for debugging purposes
     print("endpoint ->>")
     print(endpoint)
+
+    # Print the headers[0].split() list for debugging purposes
     print("headers[0].split() ->>")
     print(headers[0].split())
 
-
-
+    # Check the endpoint and call the appropriate function from the reservation_controller module
     if endpoint[0] == '/reserve':
         response = reservation_controller.reserve(endpoint[1],addr,conn)
     elif endpoint[0] == '/listavailability':
@@ -20,9 +23,10 @@ def handle_request(request,addr,conn):
     elif endpoint[0] == '/display':
         response = reservation_controller.display(endpoint[1],conn)
     else:
+        # Return a bad request response if the endpoint is invalid
         response = 'HTTP/1.0 400 Bad Request\n\n Wrong endpoint!!'
 
-
+    # Return the response
     return response
 
 
